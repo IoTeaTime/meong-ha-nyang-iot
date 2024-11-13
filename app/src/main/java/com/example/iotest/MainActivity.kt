@@ -22,8 +22,13 @@ class MainActivity : AppCompatActivity() {
 
         thread {
             try {
-                val awsKeyAndCert = IoTClientHelper(androidId)
-                    .registerDevice(this@MainActivity)
+                val iotClientHelper = IoTClientHelper(androidId)
+                // 키 생성
+                val awsKeyAndCert = iotClientHelper.getKeyAndCert()
+                // 디바이스 등록
+                iotClientHelper
+                    .registerDevice(this@MainActivity, awsKeyAndCert)
+                // MQTT 매니저 등록
                 awsMqttManager = MqttManagerHelper(androidId)
                     .createMqttManager(this@MainActivity, awsKeyAndCert)
 
