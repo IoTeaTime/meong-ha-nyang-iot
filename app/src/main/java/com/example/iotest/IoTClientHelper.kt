@@ -29,13 +29,14 @@ class IoTClientHelper(androidId: String) {
         client.setRegion(Region.getRegion(BuildConfig.AWS_REGION)) // Region을 입력하세요
     }
 
-    fun registerDevice(context: Context): CreateKeysAndCertificateResult {
-        Security.addProvider(BouncyCastleProvider())
-
+    fun getKeyAndCert(): CreateKeysAndCertificateResult {
         val request = CreateKeysAndCertificateRequest()
             .apply { setAsActive = true }
-        val result: CreateKeysAndCertificateResult =
-            client.createKeysAndCertificate(request)
+        return client.createKeysAndCertificate(request)
+    }
+
+    fun registerDevice(context: Context, result: CreateKeysAndCertificateResult) {
+        Security.addProvider(BouncyCastleProvider())
 
         val attachPolicyRequest = AttachPolicyRequest().apply {
             policyName = "certified_thing"  // 생성한 정책의 이름을 넣습니다.
@@ -60,11 +61,5 @@ class IoTClientHelper(androidId: String) {
             principal = result.certificateArn // 인증서 ARN
         }
         client.attachThingPrincipal(attachThingPrincipalRequest)
-
-        return result
-    }
-
-    private fun generateUUID(): String {
-        return UUID.randomUUID().toString()
     }
 }
