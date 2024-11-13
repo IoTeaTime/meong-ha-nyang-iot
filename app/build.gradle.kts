@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -16,6 +17,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "AWS_ACCESS_KEY", properties["AWS_ACCESS_KEY"].toString())
+        buildConfigField("String", "AWS_PRIVATE_KEY", properties["AWS_PRIVATE_KEY"].toString())
+        buildConfigField("String", "AWS_REGION", properties["AWS_REGION"].toString())
+        buildConfigField("String", "MQTT_END_POINT", properties["MQTT_END_POINT"].toString())
+        buildConfigField("String", "AWS_KEYSTORE_PW", properties["AWS_KEYSTORE_PW"].toString())
     }
 
     buildTypes {
@@ -34,6 +41,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -50,6 +61,4 @@ dependencies {
     implementation("com.amazonaws:aws-android-sdk-iot:2.75.0")
     implementation ("com.amazonaws:aws-android-sdk-mobile-client:2.75.0")
     implementation("org.bouncycastle:bcprov-jdk15on:1.70")
-
-
 }

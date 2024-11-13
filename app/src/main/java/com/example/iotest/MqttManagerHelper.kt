@@ -17,12 +17,12 @@ class MqttManagerHelper(context: Context, result: CreateKeysAndCertificateResult
             result.keyPair.privateKey,
             "${context.filesDir}",
             "keystore.bks",
-            "qwer"
+            BuildConfig.AWS_KEYSTORE_PW
         )
 
         val awsMqttManager = AWSIotMqttManager(
             "client_1",
-            "" // IoT 엔드포인트 입력
+            BuildConfig.MQTT_END_POINT // IoT 엔드포인트 입력
         )
 
         // Keystore 파일을 불러오기
@@ -30,7 +30,7 @@ class MqttManagerHelper(context: Context, result: CreateKeysAndCertificateResult
             result.certificateId,
             "${context.filesDir}",
             "keystore.bks",  // .bks 파일 확장자 사용
-            "qwer"
+            BuildConfig.AWS_KEYSTORE_PW
         )
 
         awsMqttManager.connect(keyStore
