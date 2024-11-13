@@ -17,7 +17,7 @@ class IoTClientHelper {
     private val tag = "MqttHelper"
     private val client: AWSIotClient
 //    private val thingId = generateUUID()
-    private val thingId = "c07a5551-05ea-45a1-ac05-bb1cbafbecbe"
+    private val thingId = "123"
 
     init {
         client = AWSIotClient(

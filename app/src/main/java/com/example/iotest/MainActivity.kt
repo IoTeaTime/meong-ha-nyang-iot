@@ -28,11 +28,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
         findViewById<Button>(R.id.pubbutton)
             .setOnClickListener {
                 Log.d("BUTTONS", "User tapped the PubButton")
                 awsMqttManager?.let { it1 -> PublishTopic().publishStatus(it1) }
             }
+
+
     }
 }

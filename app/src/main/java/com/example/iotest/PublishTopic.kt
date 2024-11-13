@@ -17,12 +17,6 @@ class PublishTopic {
             AWSIotMqttQos.QOS0
         )
 
-        awsMqttManager.subscribeToTopic(
-            "hello",
-            AWSIotMqttQos.QOS0
-        ) { topic, message ->
-            val str = message.toString(Charsets.UTF_8)
-            Log.d(tag, "$topic : $str")
-        }
+
     }
 }
