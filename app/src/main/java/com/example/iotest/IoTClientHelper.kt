@@ -22,11 +22,11 @@ class IoTClientHelper(context: Context) {
 
         client = AWSIotClient(
             BasicAWSCredentials(
-                "", // AWS 액세스 키를 여기에 입력하세요
-                ""  // AWS 비밀 키를 여기에 입력하세요
+                BuildConfig.AWS_ACCESS_KEY, // AWS 액세스 키를 여기에 입력하세요
+                BuildConfig.AWS_PRIVATE_KEY  // AWS 비밀 키를 여기에 입력하세요
             )
         )
-        client.setRegion(Region.getRegion("")) // Region을 입력하세요
+        client.setRegion(Region.getRegion(BuildConfig.AWS_REGION)) // Region을 입력하세요
 
         val request = CreateKeysAndCertificateRequest()
         val result: CreateKeysAndCertificateResult =
