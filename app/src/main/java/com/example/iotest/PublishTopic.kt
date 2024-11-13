@@ -11,12 +11,6 @@ class PublishTopic {
     private var tag = "PublishTopic"
 
     fun publishStatus(awsMqttManager: AWSIotMqttManager) {
-        awsMqttManager.publishString(
-            "Hello world",
-            "hello",
-            AWSIotMqttQos.QOS0
-        )
-
         awsMqttManager.subscribeToTopic(
             "hello",
             AWSIotMqttQos.QOS0
@@ -24,5 +18,11 @@ class PublishTopic {
             val str = message.toString(Charsets.UTF_8)
             Log.d(tag, "$topic : $str")
         }
+
+        awsMqttManager.publishString(
+            "Hello world",
+            "hello",
+            AWSIotMqttQos.QOS0
+        )
     }
 }
