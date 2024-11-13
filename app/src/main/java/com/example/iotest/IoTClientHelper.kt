@@ -5,22 +5,19 @@ import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.regions.Region
 import com.amazonaws.services.iot.AWSIotClient
 import com.amazonaws.services.iot.model.AttachPolicyRequest
+import com.amazonaws.services.iot.model.AttachThingPrincipalRequest
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateRequest
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult
+import com.amazonaws.services.iot.model.RegisterThingRequest
 import org.bouncycastle.jce.provider.BouncyCastleProvider
-import java.io.File
-import java.io.FileOutputStream
-import java.security.KeyStore
 import java.security.Security
 
 class IoTClientHelper(context: Context) {
     private val tag = "MqttHelper"
     private val client: AWSIotClient
-    private val keyStoreFilePath = "${context.filesDir}/keystore.bks"
-    private val keyStorePassword = "qwer"
+    private val thingId = "12345"
 
     init {
-        // BouncyCastle Provider를 추가
         Security.addProvider(BouncyCastleProvider())
 
         client = AWSIotClient(
@@ -29,19 +26,37 @@ class IoTClientHelper(context: Context) {
                 ""  // AWS 비밀 키를 여기에 입력하세요
             )
         )
-        client.setRegion(Region.getRegion("")) // 지역을 입력
+        client.setRegion(Region.getRegion("")) // Region을 입력하세요
 
         val request = CreateKeysAndCertificateRequest()
-        request.setAsActive = true
         val result: CreateKeysAndCertificateResult =
             client.createKeysAndCertificate(request)
 
+        request.setAsActive = true
+
         val attachPolicyRequest = AttachPolicyRequest().apply {
-            policyName = ""  // 생성한 정책의 이름을 넣습니다.
+            policyName = "certified_thing"  // 생성한 정책의 이름을 넣습니다.
             target = result.certificateArn  // 인증서 ARN
         }
 
         client.attachPolicy(attachPolicyRequest)
+
+
+        val templateBody = context.resources.openRawResource(R.raw.thing_template)
+            .bufferedReader().use { it.readText() }
+
+        val registerRequest = RegisterThingRequest().apply {
+            this.templateBody = templateBody
+            this.parameters = mapOf("DeviceSerialNumber" to thingId)
+        }
+        client.registerThing(registerRequest)
+
+
+        val attachThingPrincipalRequest = AttachThingPrincipalRequest().apply {
+            thingName = thingId // 연결할 사물의 이름
+            principal = result.certificateArn // 인증서 ARN
+        }
+        client.attachThingPrincipal(attachThingPrincipalRequest)
 
         MqttManagerHelper(context, result)
     }

@@ -1,0 +1,17 @@
+{
+  "Parameters": {
+    "DeviceSerialNumber": {
+      "Type": "String"
+    }
+  },
+  "Resources": {
+    "thing": {
+      "Type": "AWS::IoT::Thing",
+      "Properties": {
+        "ThingName": {
+          "Ref": "DeviceSerialNumber"
+        }
+      }
+    }
+  }
+}
