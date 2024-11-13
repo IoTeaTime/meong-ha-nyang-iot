@@ -10,8 +10,13 @@ import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult
 
-class MqttManagerHelper {
+class MqttManagerHelper(androidId: String) {
     private var tag = "MqttManagerHelper"
+    private var clientId = ""
+
+    init {
+        clientId = androidId
+    }
 
     fun createMqttManager(context: Context, result: CreateKeysAndCertificateResult)
     : AWSIotMqttManager {
@@ -50,18 +55,10 @@ class MqttManagerHelper {
                 throwable.printStackTrace()
             }
             Log.d(tag, "Status: $status")
-            // Connected 상태일 때만 구독
+            // connected 상태일 때 Subscribe
             if (status == AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus.Connected) {
-                awsMqttManager.subscribeToTopic(
-                    "hello",
-                    AWSIotMqttQos.QOS0
-                ) { topic, message ->
-                    val str = message.toString(Charsets.UTF_8)
-                    Log.d(tag, "$topic : $str")
-                }
-                Log.d(tag, "Subscribed to topic: hello")
+                MqttPubSub().sub(awsMqttManager, "hello")
             }
-
         }
 
         return awsMqttManager

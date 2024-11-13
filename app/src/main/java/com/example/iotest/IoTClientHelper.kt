@@ -13,13 +13,13 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.Security
 import java.util.UUID
 
-class IoTClientHelper {
+class IoTClientHelper(androidId: String) {
     private val tag = "MqttHelper"
     private val client: AWSIotClient
-//    private val thingId = generateUUID()
-    private val thingId = "123"
+    private var thingId = ""
 
     init {
+        thingId = androidId
         client = AWSIotClient(
             BasicAWSCredentials(
                 BuildConfig.AWS_ACCESS_KEY, // AWS 액세스 키를 여기에 입력하세요
