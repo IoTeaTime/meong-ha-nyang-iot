@@ -7,7 +7,6 @@ import android.util.Log
 import com.amazonaws.mobileconnectors.iot.AWSIotKeystoreHelper
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttClientStatusCallback
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager
-import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult
 
 class MqttManagerHelper(androidId: String) {
@@ -29,9 +28,6 @@ class MqttManagerHelper(androidId: String) {
             "keystore.bks",
             BuildConfig.AWS_KEYSTORE_PW
         )
-
-        var clientId = getDeviceUuid(context)
-
         val awsMqttManager = AWSIotMqttManager(
             clientId,
             BuildConfig.MQTT_END_POINT // IoT 엔드포인트 입력
@@ -60,16 +56,6 @@ class MqttManagerHelper(androidId: String) {
                 MqttPubSub().sub(awsMqttManager, "hello")
             }
         }
-
         return awsMqttManager
     }
-
-    @SuppressLint("HardwareIds")
-    private fun getDeviceUuid(context: Context): String {
-        return Settings.Secure.getString(
-            context.contentResolver,
-            Settings.Secure.ANDROID_ID
-        )
-    }
-
 }
