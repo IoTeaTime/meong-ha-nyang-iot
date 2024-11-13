@@ -11,15 +11,15 @@ import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult
 import com.amazonaws.services.iot.model.RegisterThingRequest
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.Security
+import java.util.UUID
 
-class IoTClientHelper(context: Context) {
+class IoTClientHelper {
     private val tag = "MqttHelper"
     private val client: AWSIotClient
-    private val thingId = "12345"
+//    private val thingId = generateUUID()
+    private val thingId = "c07a5551-05ea-45a1-ac05-bb1cbafbecbe"
 
     init {
-        Security.addProvider(BouncyCastleProvider())
-
         client = AWSIotClient(
             BasicAWSCredentials(
                 BuildConfig.AWS_ACCESS_KEY, // AWS 액세스 키를 여기에 입력하세요
@@ -27,12 +27,15 @@ class IoTClientHelper(context: Context) {
             )
         )
         client.setRegion(Region.getRegion(BuildConfig.AWS_REGION)) // Region을 입력하세요
+    }
+
+    fun registerDevice(context: Context): CreateKeysAndCertificateResult {
+        Security.addProvider(BouncyCastleProvider())
 
         val request = CreateKeysAndCertificateRequest()
+            .apply { setAsActive = true }
         val result: CreateKeysAndCertificateResult =
             client.createKeysAndCertificate(request)
-
-        request.setAsActive = true
 
         val attachPolicyRequest = AttachPolicyRequest().apply {
             policyName = "certified_thing"  // 생성한 정책의 이름을 넣습니다.
@@ -58,6 +61,10 @@ class IoTClientHelper(context: Context) {
         }
         client.attachThingPrincipal(attachThingPrincipalRequest)
 
-        MqttManagerHelper(context, result)
+        return result
+    }
+
+    private fun generateUUID(): String {
+        return UUID.randomUUID().toString()
     }
 }
