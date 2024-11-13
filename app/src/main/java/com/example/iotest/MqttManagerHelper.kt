@@ -6,10 +6,11 @@ import com.amazonaws.mobileconnectors.iot.AWSIotKeystoreHelper
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult
 
-class MqttManagerHelper(context: Context, result: CreateKeysAndCertificateResult) {
+class MqttManagerHelper {
     private var tag = "MqttManagerHelper"
 
-    init {
+    fun createMqttManager(context: Context, result: CreateKeysAndCertificateResult)
+    : AWSIotMqttManager {
 
         AWSIotKeystoreHelper.saveCertificateAndPrivateKey(
             result.certificateId,
@@ -41,5 +42,7 @@ class MqttManagerHelper(context: Context, result: CreateKeysAndCertificateResult
             }
             Log.d(tag, "Status: $status")
         }
+
+        return awsMqttManager
     }
 }
