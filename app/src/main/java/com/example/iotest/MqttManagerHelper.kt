@@ -6,8 +6,13 @@ import com.amazonaws.mobileconnectors.iot.AWSIotKeystoreHelper
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult
 
-class MqttManagerHelper {
+class MqttManagerHelper(androidId: String) {
     private var tag = "MqttManagerHelper"
+    private var clientId = ""
+
+    init {
+        clientId = androidId
+    }
 
     fun createMqttManager(context: Context, result: CreateKeysAndCertificateResult)
     : AWSIotMqttManager {
@@ -22,7 +27,7 @@ class MqttManagerHelper {
         )
 
         val awsMqttManager = AWSIotMqttManager(
-            "client_1",
+            clientId,
             BuildConfig.MQTT_END_POINT // IoT 엔드포인트 입력
         )
 
