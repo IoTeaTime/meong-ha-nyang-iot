@@ -1,24 +1,21 @@
 package com.example.iotest
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.amazonaws.mobileconnectors.iot.AWSIotKeystoreHelper
 import com.amazonaws.mobileconnectors.iot.AWSIotMqttManager
 import kotlin.concurrent.thread
 import java.io.File
-import java.security.KeyStore
 
 class MainActivity : AppCompatActivity() {
     private val tag = "MainActivity"
     private var awsMqttManager: AWSIotMqttManager? = null
     private var androidId = ""
 
-    @SuppressLint("HardwareIds")
+    @SuppressLint("HardwareIds", "MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -45,9 +42,13 @@ class MainActivity : AppCompatActivity() {
                 Log.e(tag, "Error occurred: ${e.message}", e)
             }
         }
-        findViewById<Button>(R.id.pubbutton).setOnClickListener {
+        findViewById<Button>(R.id.deletebutton).setOnClickListener {
             Log.d("BUTTONS", "Shadow Get Request")
-            awsMqttManager?.let { mqttManager -> MqttPubSub().pub(mqttManager,"","\$aws/things/8a1d1987b4231a1a/shadow/get") }
+            awsMqttManager?.let { mqttManager -> MqttPubSub().deleteShadow(mqttManager) }
+        }
+        findViewById<Button>(R.id.getbutton).setOnClickListener {
+            Log.d("BUTTONS", "Shadow get Request")
+            awsMqttManager?.let { mqttManager -> MqttPubSub().getShadow(mqttManager) }
         }
     }
 

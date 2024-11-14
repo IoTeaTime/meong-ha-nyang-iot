@@ -12,6 +12,7 @@ import java.security.KeyStore
 class MqttManagerHelper(androidId: String) {
     private var tag = "MqttManagerHelper"
     private var clientId = androidId
+    private lateinit var keyStoreFile:File
 
     companion object {
         private const val PREFS_NAME = "IoTPreferences"
@@ -19,7 +20,7 @@ class MqttManagerHelper(androidId: String) {
     }
 
     fun createKeyStore(context: Context, result: CreateKeysAndCertificateResult) {
-        val keyStoreFile = File("${context.filesDir}/keystore.bks")
+        keyStoreFile = File("${context.filesDir}/keystore.bks")
 
         AWSIotKeystoreHelper.saveCertificateAndPrivateKey(
             result.certificateId,
@@ -30,8 +31,6 @@ class MqttManagerHelper(androidId: String) {
             BuildConfig.AWS_KEYSTORE_PW
         )
         Log.d(tag, "KeyStore created and saved.")
-
-        // certificateId를 SharedPreferences에 저장
         saveCertificateId(context, result.certificateId)
     }
 
@@ -73,7 +72,14 @@ class MqttManagerHelper(androidId: String) {
             } else {
                 Log.d(tag, "Status: $status")
                 if (status == AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus.Connected) {
-                    MqttPubSub().sub(awsMqttManager, "hello")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/update/delta")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/update/accepted")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/update/rejected")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/update/documents")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/get/accepted")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/get/rejected")
+
+                    MqttPubSub().updateShadow(awsMqttManager)
                 }
             }
         }
