@@ -7,10 +7,10 @@ import com.amazonaws.mobileconnectors.iot.AWSIotMqttQos
 class MqttPubSub {
     private var tag = "PublishTopic"
 
-    fun pub(awsMqttManager: AWSIotMqttManager, topic: String) {
+    fun pub(awsMqttManager: AWSIotMqttManager,payload: String, topic: String) {
         awsMqttManager.publishString(
+            payload,
             topic,
-            "hello",
             AWSIotMqttQos.QOS0
         )
     }

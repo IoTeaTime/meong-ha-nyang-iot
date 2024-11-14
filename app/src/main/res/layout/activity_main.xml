@@ -18,19 +18,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Subscribe 버튼 -->
-        <Button
-            android:id="@+id/subbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="get button" />
+
 
         <!-- Publish 버튼 -->
         <Button
             android:id="@+id/pubbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="update button"
+            android:text="get-button"
             android:layout_marginTop="16dp" />
 
         <!-- Loading 텍스트 -->
