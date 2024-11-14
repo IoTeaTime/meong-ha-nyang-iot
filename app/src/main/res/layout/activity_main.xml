@@ -7,39 +7,40 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:orientation="vertical" >
+    <!-- LinearLayout을 ConstraintLayout의 중앙에 배치 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Subscribe 버튼 -->
         <Button
             android:id="@+id/subbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subscribe Group Topics"
-            tools:ignore="MissingConstraints" />
+            android:text="get button" />
 
+        <!-- Publish 버튼 -->
         <Button
             android:id="@+id/pubbutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Publish Device Info"
-            tools:ignore="MissingConstraints" />
+            android:text="update button"
+            android:layout_marginTop="16dp" />
 
+        <!-- Loading 텍스트 -->
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Loading..."
-            android:padding="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_marginTop="32dp"
+            android:gravity="center" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
