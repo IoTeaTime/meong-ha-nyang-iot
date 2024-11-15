@@ -12,6 +12,7 @@ import java.security.KeyStore
 class MqttManagerHelper(androidId: String) {
     private var tag = "MqttManagerHelper"
     private var clientId = androidId
+    private var thingId = androidId
     private lateinit var keyStoreFile:File
 
     companion object {
@@ -61,23 +62,15 @@ class MqttManagerHelper(androidId: String) {
             if (throwable != null) {
                 Log.e(tag, "Connection error: $throwable")
                 throwable.printStackTrace()
-
-                val keyStoreFile = File("${context.filesDir}/keystore.bks")
-                if (keyStoreFile.exists()) {
-                    Log.d(tag, "Deleting existing keyStore.bks and creating a new keyStore.")
-                    keyStoreFile.delete()
-                } else {
-                    Log.e(tag, "Failed to create a new KeyStore.")
-                }
             } else {
                 Log.d(tag, "Status: $status")
                 if (status == AWSIotMqttClientStatusCallback.AWSIotMqttClientStatus.Connected) {
-                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/update/delta")
-                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/update/accepted")
-                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/update/rejected")
-                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/update/documents")
-                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/get/accepted")
-                    MqttPubSub().sub(awsMqttManager, "\$aws/things/8a1d1987b4231a1a/shadow/get/rejected")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/${thingId}/shadow/update/delta")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/${thingId}/shadow/update/accepted")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/${thingId}/shadow/update/rejected")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/${thingId}/shadow/update/documents")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/${thingId}/shadow/get/accepted")
+                    MqttPubSub().sub(awsMqttManager, "\$aws/things/${thingId}/shadow/get/rejected")
 
                     MqttPubSub().updateShadow(awsMqttManager)
                 }

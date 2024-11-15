@@ -58,7 +58,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation("com.amazonaws:aws-android-sdk-iot:2.75.0")
-    implementation ("com.amazonaws:aws-android-sdk-mobile-client:2.75.0")
-    implementation("org.bouncycastle:bcprov-jdk15on:1.70")
+    implementation(libs.aws.android.sdk.iot)
+    implementation (libs.amazonaws.aws.android.sdk.mobile.client)
+    implementation(libs.bcprov.jdk15on)
 }

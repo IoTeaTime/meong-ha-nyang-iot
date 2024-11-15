@@ -27,14 +27,14 @@ class MqttPubSub {
     }
 
     fun getShadow(awsMqttManager: AWSIotMqttManager) {
-        val topic = "\$aws/things/8a1d1987b4231a1a/shadow/get"
+        val topic = "\$aws/things/fd72414d2c21c071/shadow/get"
         val payload = "{}"
 
         pub(awsMqttManager, payload, topic)
         Log.d(tag, "Shadow get request sent.")
     }
     fun updateShadow(awsMqttManager: AWSIotMqttManager) {
-        val topic = "\$aws/things/8a1d1987b4231a1a/shadow/update"
+        val topic = "\$aws/things/fd72414d2c21c071/shadow/update"
 
         val batteryLevel = 89
         val availableMemory = 123
@@ -58,7 +58,7 @@ class MqttPubSub {
     }
 
     fun deleteShadow(awsMqttManager: AWSIotMqttManager) {
-        val topic = "\$aws/things/8a1d1987b4231a1a/shadow/delete"
+        val topic = "\$aws/things/fd72414d2c21c071/shadow/delete"
         val payload = "{}"
 
         pub(awsMqttManager, payload, topic)

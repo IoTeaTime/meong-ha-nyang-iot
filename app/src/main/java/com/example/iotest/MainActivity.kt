@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
                         awsMqttManager = mqttHelper.createMqttManager(this@MainActivity, keyStore)
                     } catch (e: Exception) {
                         Log.e(tag, "KeyStore access error: ${e.message}", e)
-                        keyStoreFile.delete()
                         initializeWithNewKeyStore(iotClientHelper, mqttHelper)
                     }
                 } else {
