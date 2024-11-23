@@ -1,46 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- LinearLayout을 ConstraintLayout의 중앙에 배치 -->
-    <LinearLayout
+    <TextView
+        android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:text="AWS IoT &amp; KVS Test"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp" />
 
-        <!-- Subscribe 버튼 -->
-        <Button
-            android:id="@+id/getbutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PUB Get Button" />
+    <Button
+        android:id="@+id/getbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Shadow"
+        android:layout_marginBottom="8dp" />
 
-        <!-- Publish 버튼 -->
-        <Button
-            android:id="@+id/deletebutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PUB Delete Button"
-            android:layout_marginTop="16dp" />
+    <Button
+        android:id="@+id/updatebutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Shadow"
+        android:layout_marginBottom="8dp" />
 
-        <!-- Loading 텍스트 -->
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loading..."
-            android:layout_marginTop="32dp"
-            android:gravity="center" />
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/log_output"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#f0f0f0"
+        android:padding="8dp"
+        android:scrollbars="vertical"
+        android:text="Logs will appear here..." />
+</LinearLayout>

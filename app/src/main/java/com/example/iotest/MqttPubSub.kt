@@ -26,18 +26,18 @@ class MqttPubSub {
         }
     }
 
-    fun getShadow(awsMqttManager: AWSIotMqttManager) {
-        val topic = "\$aws/things/fd72414d2c21c071/shadow/get"
+    fun getShadow(awsMqttManager: AWSIotMqttManager, androidId:String) {
+        val topic = "\$aws/things/dc5e34def7865a95/shadow/get"
         val payload = "{}"
 
         pub(awsMqttManager, payload, topic)
         Log.d(tag, "Shadow get request sent.")
     }
-    fun updateShadow(awsMqttManager: AWSIotMqttManager) {
-        val topic = "\$aws/things/fd72414d2c21c071/shadow/update"
+    fun updateShadow(awsMqttManager: AWSIotMqttManager, androidId: String) {
+        val topic = "\$aws/things/dc5e34def7865a95/shadow/update"
 
-        val batteryLevel = 89
-        val availableMemory = 123
+        val batteryLevel = 91
+        val availableMemory = 126
         val kvsChannelActive = true
         val kvsChannelDeleteRequested = false
 
@@ -45,9 +45,9 @@ class MqttPubSub {
             {
                 "state": {
                     "reported": {
-                        "kvsChannelActive": $kvsChannelActive,
-                        "batteryLevel": $batteryLevel,
-                        "availableMemory": $availableMemory,
+                            "kvsChannelActive": $kvsChannelActive,
+                            "batteryLevel": $batteryLevel,
+                            "availableMemory": $availableMemory,
                         "kvsChannelDeleteRequested": $kvsChannelDeleteRequested
                     }
                 }
@@ -57,8 +57,8 @@ class MqttPubSub {
         Log.d(tag, "Shadow update request sent with payload: $payload")
     }
 
-    fun deleteShadow(awsMqttManager: AWSIotMqttManager) {
-        val topic = "\$aws/things/fd72414d2c21c071/shadow/delete"
+    fun deleteShadow(awsMqttManager: AWSIotMqttManager, androidId: String) {
+        val topic = "\$aws/things/$androidId/shadow/delete"
         val payload = "{}"
 
         pub(awsMqttManager, payload, topic)

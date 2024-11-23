@@ -11,18 +11,11 @@ android {
     defaultConfig {
         applicationId = "com.example.iotest"
         minSdk = 26
-        //noinspection EditedTargetSdkVersion
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField("String", "AWS_ACCESS_KEY", properties["AWS_ACCESS_KEY"].toString())
-        buildConfigField("String", "AWS_PRIVATE_KEY", properties["AWS_PRIVATE_KEY"].toString())
-        buildConfigField("String", "AWS_REGION", properties["AWS_REGION"].toString())
-        buildConfigField("String", "MQTT_END_POINT", properties["MQTT_END_POINT"].toString())
-        buildConfigField("String", "AWS_KEYSTORE_PW", properties["AWS_KEYSTORE_PW"].toString())
     }
 
     buildTypes {
@@ -48,7 +41,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -59,6 +51,24 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.aws.android.sdk.iot)
-    implementation (libs.amazonaws.aws.android.sdk.mobile.client)
+    implementation(libs.amazonaws.aws.android.sdk.mobile.client)
     implementation(libs.bcprov.jdk15on)
+
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
+    implementation(libs.androidx.runtime.livedata)
+
+    implementation (libs.androidx.lifecycle.runtime.ktx.v261)
+
+    val awsVersion = "2.75.0"
+    implementation("com.amazonaws:aws-android-sdk-kinesisvideo:$awsVersion@aar") { isTransitive = true }
+    implementation("com.amazonaws:aws-android-sdk-kinesisvideo-signaling:$awsVersion@aar") { isTransitive = true }
+    implementation("com.amazonaws:aws-android-sdk-kinesisvideo-webrtcstorage:$awsVersion@aar") { isTransitive = true }
+    implementation("com.amazonaws:aws-android-sdk-mobile-client:$awsVersion@aar") { isTransitive = true }
+
+    // ExoPlayer
+    implementation("androidx.media3:media3-exoplayer:1.1.1")
+    implementation("androidx.media3:media3-exoplayer-hls:1.1.1")
+    implementation("androidx.media3:media3-ui:1.1.1")
+
 }

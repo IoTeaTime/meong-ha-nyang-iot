@@ -50,7 +50,7 @@ class MqttManagerHelper(androidId: String) {
         }
     }
 
-    fun createMqttManager(context: Context, keyStore: KeyStore?): AWSIotMqttManager {
+    fun createMqttManager(keyStore: KeyStore?): AWSIotMqttManager {
         val awsMqttManager = AWSIotMqttManager(
             clientId,
             BuildConfig.MQTT_END_POINT
@@ -72,7 +72,7 @@ class MqttManagerHelper(androidId: String) {
                     MqttPubSub().sub(awsMqttManager, "\$aws/things/${thingId}/shadow/get/accepted")
                     MqttPubSub().sub(awsMqttManager, "\$aws/things/${thingId}/shadow/get/rejected")
 
-                    MqttPubSub().updateShadow(awsMqttManager)
+                    MqttPubSub().updateShadow(awsMqttManager, thingId)
                 }
             }
         }
